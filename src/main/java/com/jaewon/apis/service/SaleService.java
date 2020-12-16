@@ -1,8 +1,9 @@
 package com.jaewon.apis.service;
 
-import com.jaewon.apis.model.Product;
+import com.jaewon.apis.datamodels.SaleStatus;
 import com.jaewon.apis.model.Sale;
 import com.jaewon.apis.repository.SaleRepository;
+import com.jaewon.apis.vo.SalePurchaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -22,8 +23,27 @@ public class SaleService {
         return searchedSale.orElseThrow(() -> new Exception("해당 상품을 찾지 못하였습니다."));
     }
 
-    public void placeOrder() {
+    public int createSale(SalePurchaseVO salePurchaseVO) {
+        Sale createdSale = Sale.builder()
+                .userId(salePurchaseVO.getUserId())
+                .productId(salePurchaseVO.getProductId())
+                .paidPrice(salePurchaseVO.getPaidPrice())
+                .listPrice(salePurchaseVO.getListPrice())
+                .amount(salePurchaseVO.getAmount()).build();
 
+        this.saleRepository.save(createdSale);
+        this.saleRepository.flush();
+
+        return createdSale.getSaleId();
+    }
+
+    public void purchase(int saleId) throws Exception {
+        Optional<Sale> purchaseSale = this.saleRepository.findById(saleId);
+        Sale sale = purchaseSale.orElseThrow(() -> new Exception("결제 과정 도중에 문제가 생겼습니다.");
+
+        sale.setStatus(SaleStatus.PAID);
+        this.saleRepository.save(sale);
+        this.saleRepository.flush();
     }
 
     public  void refund(int orderId) {

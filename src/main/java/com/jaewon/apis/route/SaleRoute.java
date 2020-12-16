@@ -4,6 +4,7 @@ import com.jaewon.apis.model.Sale;
 import com.jaewon.apis.model.User;
 import com.jaewon.apis.service.SaleService;
 import com.jaewon.apis.service.UserService;
+import com.jaewon.apis.vo.SalePurchaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,11 @@ public class SaleRoute {
     @GetMapping("/initialize")
     public void initializeSales() {
         this.saleService.initializeSales();
+    }
+
+    @PostMapping("/purchase")
+    public void purchase(SalePurchaseVO salePurchaseVO) {
+        int saleId = this.saleService.createSale(salePurchaseVO);
+        this.saleService.purchase(saleId);
     }
 }
