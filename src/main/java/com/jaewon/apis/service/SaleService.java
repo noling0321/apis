@@ -22,6 +22,14 @@ public class SaleService {
         return searchedSale.orElseThrow(() -> new Exception("해당 상품을 찾지 못하였습니다."));
     }
 
+    public void placeOrder() {
+
+    }
+
+    public  void refund(int orderId) {
+
+    }
+
     public void initializeSales() {
         Sale sale1 = Sale.builder()
                 .userId(1)
