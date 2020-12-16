@@ -1,4 +1,4 @@
-package com.jaewon.api.apis.model;
+package com.jaewon.apis.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    private int userId;
 
     @Column(length = 40, nullable = false)
     private String email;
@@ -33,8 +33,8 @@ public class User {
     @Override
     public String toString() {
         return String.format(
-                "User[uid=%d, email='%s', name='%s', phone='%s']",
-                this.user_id, this.email, this.name, this.phone
+                "User[user_id=%d, email='%s', name='%s', phone='%s']",
+                this.userId, this.email, this.name, this.phone
         );
     }
 }

@@ -1,4 +1,4 @@
-package com.jaewon.api.apis.model;
+package com.jaewon.apis.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class Product {
     @Override
     public String toString() {
         return String.format(
-                "Product[productId=%d, name='%s', description='%s', listPrice=%d, price=%d]",
+                "Product[productId='%s', name='%s', description='%s', listPrice=%d, price=%d]",
                 this.productId, this.name, this.description, this.listPrice, this.price
         );
     }
