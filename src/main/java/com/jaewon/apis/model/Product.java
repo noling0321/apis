@@ -33,7 +33,7 @@ public class Product {
     private String imageURL;
 
     @Builder
-    public Product(String name, String description, int listPrice, int price, String category) {
+    public Product(String name, String description, int listPrice, int price, String category, String imageURL) {
         this.name = name;
         this.description = description;
         this.listPrice = listPrice;
