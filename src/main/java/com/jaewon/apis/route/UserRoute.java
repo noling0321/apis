@@ -1,6 +1,11 @@
 package com.jaewon.apis.route;
 
+import com.jaewon.apis.datamodel.SaleGroupByUserId;
+import com.jaewon.apis.datamodel.UserGradeEnum;
+import com.jaewon.apis.datamodel.UserTotalPaidPrice;
+import com.jaewon.apis.model.Sale;
 import com.jaewon.apis.model.User;
+import com.jaewon.apis.service.SaleService;
 import com.jaewon.apis.service.UserService;
 import com.jaewon.apis.vo.UserRegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +17,12 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserRoute {
     private final UserService userService;
+    private final SaleService saleService;
 
     @Autowired
-    public UserRoute(UserService userService) {
+    public UserRoute(UserService userService, SaleService saleService) {
         this.userService = userService;
+        this.saleService = saleService;
     }
 
     @GetMapping
@@ -43,5 +50,21 @@ public class UserRoute {
     @DeleteMapping("/{user_id}")
     public void deleteUser(@PathVariable(value="user_id") String userId) {
         this.userService.deleteUser(Integer.parseInt(userId));
+    }
+
+    @GetMapping("/{user_id}/purchase_list")
+    public List<Sale> getUserPurchaseList(@PathVariable(value="user_id") String userId) {
+        return this.saleService.getSalesByUserId(Integer.parseInt(userId));
+    }
+
+    @GetMapping("/{user_id}/purchase_amount")
+    public UserTotalPaidPrice getUserPurchaseAmount(@PathVariable(value="user_id") String userId) {
+        return this.saleService.getTotalPaidPriceByUserId(Integer.parseInt(userId));
+    }
+
+    @GetMapping("/{user_id}/grade")
+    @ResponseBody
+    public UserGradeEnum getUserGrade(@PathVariable(value="user_id") String userId) {
+        return this.userService.getUserGrade(Integer.parseInt(userId));
     }
 }

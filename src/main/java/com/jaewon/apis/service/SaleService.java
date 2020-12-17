@@ -1,6 +1,8 @@
 package com.jaewon.apis.service;
 
+import com.jaewon.apis.datamodel.SaleGroupByUserId;
 import com.jaewon.apis.datamodel.SaleStatusEnum;
+import com.jaewon.apis.datamodel.UserTotalPaidPrice;
 import com.jaewon.apis.model.Product;
 import com.jaewon.apis.model.Sale;
 import com.jaewon.apis.model.User;
@@ -11,6 +13,7 @@ import com.jaewon.apis.vo.SalePurchaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -104,5 +107,14 @@ public class SaleService {
         this.saleRepository.save(sale2);
         this.saleRepository.save(sale3);
         this.saleRepository.flush();
+    }
+
+    public List<Sale> getSalesByUserId(int userId) {
+        return this.saleRepository.findByUserId(userId);
+    }
+
+    public UserTotalPaidPrice getTotalPaidPriceByUserId(int userId) {
+        SaleGroupByUserId groupData = this.saleRepository.PurchaseAmountGroupByUserId(userId);
+        return new UserTotalPaidPrice(groupData);
     }
 }
