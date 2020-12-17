@@ -29,6 +29,9 @@ public class Product {
     @Column(length = 40)
     private String category;
 
+    @Column
+    private String imageURL;
+
     @Builder
     public Product(String name, String description, int listPrice, int price, String category) {
         this.name = name;
@@ -41,8 +44,8 @@ public class Product {
     @Override
     public String toString() {
         return String.format(
-                "Product[productId='%s', name='%s', description='%s', listPrice=%d, price=%d, category='%s']",
-                this.productId, this.name, this.description, this.listPrice, this.price, this.category
+                "Product[productId='%s', name='%s', description='%s', listPrice=%d, price=%d, category='%s', imageURL='%s']",
+                this.productId, this.name, this.description, this.listPrice, this.price, this.category, this.imageURL
         );
     }
 }
