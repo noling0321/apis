@@ -1,13 +1,13 @@
 package com.jaewon.apis.service;
 
+import java.util.List;
+import java.util.Optional;
 import com.jaewon.apis.model.User;
 import com.jaewon.apis.repository.UserRepository;
 import com.jaewon.apis.vo.UserRegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class UserService {
@@ -18,12 +18,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User find(int userId) throws Exception {
+    public User find(int userId) throws Exception{
         Optional<User> searchedUser = this.userRepository.findById(userId);
-        return searchedUser.orElseThrow(() -> new Exception("해당 유저를 찾지 못하였습니다."));
+        return searchedUser.orElseThrow(() -> new Exception("해당 유저를 찾지 못하였습니다"));
     }
 
-    public List findAll() {
+    public List<User> findAll() {
         return this.userRepository.findAll();
     }
 
@@ -37,13 +37,13 @@ public class UserService {
         User user2 = User.builder()
                 .email("example2@sample.com")
                 .name("Mrs. Sample")
-                .phone("01000000000")
+                .phone("01000001234")
                 .build();
 
         User user3 = User.builder()
                 .email("example3@sample.com")
                 .name("ms. Sample Data")
-                .phone("01000000000")
+                .phone("01012341234")
                 .build();
 
         this.userRepository.save(user1);
@@ -52,7 +52,7 @@ public class UserService {
         this.userRepository.flush();
     }
 
-    public void createUser(UserRegisterVO userRegisterVO) {
+    public int createUser(UserRegisterVO userRegisterVO) {
         User createUser = User.builder()
                 .email(userRegisterVO.getEmail())
                 .phone(userRegisterVO.getPhone())
@@ -61,6 +61,8 @@ public class UserService {
 
         this.userRepository.save(createUser);
         this.userRepository.flush();
+
+        return createUser.getUserId();
     }
 
     public void deleteUser(int userId) {

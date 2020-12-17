@@ -1,11 +1,12 @@
 package com.jaewon.apis.service;
 
 import com.jaewon.apis.model.Product;
-import com.jaewon.apis.model.User;
 import com.jaewon.apis.repository.ProductRepository;
+import com.jaewon.apis.vo.ProductRegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -17,9 +18,13 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public List<Product> findAll() {
+        return this.productRepository.findAll();
+    }
+
     public Product find(int productId) throws Exception {
         Optional<Product> searchedProduct = this.productRepository.findById(productId);
-        return searchedProduct.orElseThrow(() -> new Exception("해당 상품을 찾지 못하였습니다."));
+        return searchedProduct.orElseThrow(() -> new Exception("해당 상품을 찾지 못하였습니다"));
     }
 
     public void initializeProducts() {
@@ -32,14 +37,14 @@ public class ProductService {
 
         Product product2 = Product.builder()
                 .name("갤럭시 s20")
-                .description("핸드폰입니다.")
+                .description("핸드폰입니다")
                 .listPrice(1240000)
                 .price(1110000)
                 .build();
 
         Product product3 = Product.builder()
                 .name("에어팟 프로")
-                .description("달라진 것은 하나, 전부입니다!")
+                .description("달라진 것은 하나, 전부입니다")
                 .listPrice(230000)
                 .price(210000)
                 .build();
@@ -48,5 +53,23 @@ public class ProductService {
         this.productRepository.save(product2);
         this.productRepository.save(product3);
         this.productRepository.flush();
+    }
+
+    public int createProduct(ProductRegisterVO productRegisterVO) {
+        Product createdProduct = Product.builder()
+                .name(productRegisterVO.getName())
+                .description(productRegisterVO.getDescription())
+                .listPrice(productRegisterVO.getListPrice())
+                .price(productRegisterVO.getPrice())
+                .build();
+
+        this.productRepository.save(createdProduct);
+        this.productRepository.flush();
+
+        return createdProduct.getProductId();
+    }
+
+    public void deleteProduct(int productId) {
+        this.productRepository.deleteById(productId);
     }
 }

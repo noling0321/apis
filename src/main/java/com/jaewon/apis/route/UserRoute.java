@@ -18,7 +18,7 @@ public class UserRoute {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping
     @ResponseBody
     public List<User> getUsers() {
         return this.userService.findAll();
@@ -26,13 +26,13 @@ public class UserRoute {
 
     @GetMapping("/{user_id}")
     @ResponseBody
-    public User getUser(@PathVariable(value = "user_id") String userId) throws Exception {
+    public User getUser(@PathVariable(value="user_id") String userId) throws Exception{
         return this.userService.find(Integer.parseInt(userId));
     }
 
-    @PostMapping("")
-    public void createUser(UserRegisterVO user) {
-        this.userService.createUser(user);
+    @PostMapping
+    public int createUser(UserRegisterVO user) {
+        return this.userService.createUser(user);
     }
 
     @GetMapping("/initialize")
@@ -41,7 +41,7 @@ public class UserRoute {
     }
 
     @DeleteMapping("/{user_id}")
-    public void deleteUser(@PathVariable(value = "user_id") String userId) {
+    public void deleteUser(@PathVariable(value="user_id") String userId) {
         this.userService.deleteUser(Integer.parseInt(userId));
     }
 }

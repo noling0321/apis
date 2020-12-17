@@ -1,10 +1,12 @@
 package com.jaewon.apis.route;
 
 import com.jaewon.apis.model.Product;
-import com.jaewon.apis.model.User;
 import com.jaewon.apis.service.ProductService;
+import com.jaewon.apis.vo.ProductRegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -22,8 +24,24 @@ public class ProductRoute {
         return this.productService.find(Integer.parseInt(productId));
     }
 
+    @GetMapping
+    @ResponseBody
+    public List<Product> getProducts() {
+        return this.productService.findAll();
+    }
+
     @GetMapping("/initialize")
     public void initializeProducts() {
         this.productService.initializeProducts();
+    }
+
+    @DeleteMapping("/{product_id}")
+    public void deleteProduct(@PathVariable(value="product_id") String productId) throws Exception {
+        this.productService.deleteProduct(Integer.parseInt(productId));
+    }
+
+    @PostMapping
+    public int createProduct(ProductRegisterVO productRegisterVO) {
+        return this.productService.createProduct(productRegisterVO);
     }
 }

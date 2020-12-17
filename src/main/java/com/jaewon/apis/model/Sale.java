@@ -1,13 +1,12 @@
 package com.jaewon.apis.model;
 
-import com.jaewon.apis.datamodels.SaleStatus;
+import com.jaewon.apis.datamodel.SaleStatusEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
 
 
 @Getter
@@ -32,10 +31,10 @@ public class Sale {
 
     @Column(nullable = false)
     private int amount;
-    
+
     @Setter
     @Enumerated(EnumType.STRING)
-    private SaleStatus status = SaleStatus.NON_PAID;
+    private SaleStatusEnum status = SaleStatusEnum.NON_PAID;
 
     @Builder
     public Sale(int userId, int productId, int paidPrice, int listPrice, int amount) {
@@ -44,7 +43,6 @@ public class Sale {
         this.paidPrice = paidPrice;
         this.listPrice = listPrice;
         this.amount = amount;
-        this.status = status;
     }
 
     @Override
